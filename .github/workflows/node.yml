@@ -1,22 +1,31 @@
-name: Deploy
-on: [push]
+name: Deno Deploy
+description: Deploy applications to Deno Deploy right from GitHub Actions
+author: Deno Land Inc
 
-jobs:
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write # Needed for auth with Deno Deploy
-      contents: read # Needed to clone the repository
+branding:
+  color: gray-dark
+  icon: globe
 
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v3
+inputs:
+  project: "stacx"
+    description: The name or ID of the project to deploy
+    required: true
+  entrypoint:
+    description: The path or URL to the entrypoint file
+    required: true
+  import-map:
+    description: The path or URL to an import map file
+    required: false
+  root:
+    description: The path to the directory containing the code and assets to upload
+    required: false
 
-      # TODO: add a build step here
+outputs:
+  deployment-id:
+    description: The ID of the created deployment
+  url:
+    description: The URL where the deployment is reachable
 
-      - name: Upload to Deno Deploy
-        uses: denoland/deployctl@v1
-        with:
-          project: "stacx"
-          entrypoint: "./index.js" # TODO: update entrypoint
+runs:
+  using: node16
+  main: action/index.js
