@@ -1,9 +1,7 @@
-FROM node:16-alpine3.14 as common-build-stage
+FROM node:16
 WORKDIR /opt/music
 EXPOSE 8080
 ENV NODE_ENV production
-
-FROM common-build-stage as production-build-stage
 
 # Copy dependencies first to improve layer caching
 
